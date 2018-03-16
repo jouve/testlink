@@ -1,0 +1,38 @@
+version: "2.3"
+services:
+  maria:
+    image: mariadb
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+      MYSQL_USER: ${MYSQL_USER:-testlink}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-testlink}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-testlink}
+    volumes:
+      - maria_data:/var/lib/mysql
+    healthcheck:
+      test: echo "select 1;" | MYSQL_PWD=$${MYSQL_PASSWORD} mysql -u $${MYSQL_USER} -h maria $${MYSQL_DATABASE} || exit 1
+  mysqld-exporter:
+    image: prom/mysqld-exporter
+    environment:
+      DATA_SOURCE_NAME: ${MYSQL_USER:-testlink}:${MYSQL_PASSWORD:-testlink}@(maria:3306)/${POSTGRES_DB:-testlink}
+    network_mode: service:maria
+  adminer:
+    image: adminer
+    depends_on: 
+      - maria
+    healthcheck:
+      test: curl http://adminer:8080 || exit 1
+  testlink:
+    build:
+      context: .
+    image: jouve/testlink:latest
+    ports:
+      - 80:80
+    environment:
+      DB_TYPE: mysql
+      DB_HOST: maria
+      DB_USER: testlink
+      DB_PASS: testlink
+      DB_NAME: testlink
+volumes:
+  maria_data:
