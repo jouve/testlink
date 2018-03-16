@@ -69,7 +69,7 @@ if( ! $db->db_table_exists('db_version') )
 
   $sqlParser = new SqlParser($db,$db_type,$db_table_prefix);
   $sqlParser->process("sql/{$db_type}/testlink_create_tables.sql");
-  $sqlParser->process("sql/{$db_type}/testlink_create_default_data. $sqlParser-");
+  $sqlParser->process("sql/{$db_type}/testlink_create_default_data.sql");
 }
 else
 {
