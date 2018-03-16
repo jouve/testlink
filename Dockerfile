@@ -12,11 +12,11 @@ RUN curl -L https://github.com/TestLinkOpenSourceTRMS/testlink-code/archive/$TES
 
 COPY PHPMailerAutoload.php ./third_party/phpmailer/PHPMailerAutoload.php
 
+USER root
+
 RUN mkdir -p /usr/share/testlink && mv install /usr/share/testlink/install
 
 COPY installNewDB.php /usr/share/testlink/install
-
-USER root
 
 VOLUME /var/testlink/logs /var/testlink/upload_area
 
