@@ -29,6 +29,7 @@ services:
     ports:
       - 80:80
     environment:
+      DB_MIGRATE: "1"
       DB_TYPE: mysql
       DB_HOST: maria
       DB_USER: testlink

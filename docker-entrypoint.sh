@@ -23,9 +23,10 @@ EOF
 
 fi
 
-if [ -z "$DB_MIGRATE" ]; then
-	pushd /usr/share/testlink/install
+if [ "${DB_MIGRATE-"0"}" != "0" ]; then
+	cd /usr/share/testlink/install
 	php installNewDB.php
+	cd -
 fi
 
 exec "$@"
