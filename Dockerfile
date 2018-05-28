@@ -7,7 +7,7 @@ RUN mkdir -p /var/testlink/logs /var/testlink/upload_area && \
 
 USER www-data
 
-ARG TESTLINK_VERSION=1.9.16
+ARG TESTLINK_VERSION=1.9.17
 RUN curl -L https://github.com/TestLinkOpenSourceTRMS/testlink-code/archive/$TESTLINK_VERSION.tar.gz | tar --strip 1 -xz
 
 COPY PHPMailerAutoload.php ./third_party/phpmailer/PHPMailerAutoload.php
