@@ -1,4 +1,4 @@
-FROM php:7.2.4-apache-stretch
+FROM php:7.2.6-apache-stretch
 
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
