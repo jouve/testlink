@@ -92,8 +92,8 @@ else
       echo "Nothing to migrate";
       break;
     case 'DB 1.9.15':
-      $a_sql_upd_dir[] = "sql/alter_tables/1.9.15/{$db_type}/DB.1.9.15/step1/db_schema_update.sql";       
-      $a_sql_data_dir[] = "sql/alter_tables/1.9.15/{$db_type}/DB.1.9.15/stepZ/z_final_step.sql";
+      $a_sql_upd_dir[] = "sql/alter_tables/1.9.16/{$db_type}/DB.1.9.16/step1/db_schema_update.sql";       
+      $a_sql_data_dir[] = "sql/alter_tables/1.9.16/{$db_type}/DB.1.9.16/stepZ/z_final_step.sql";
       break;
     default:
       echo "Invalid version to migrate from " . $schema_version;
