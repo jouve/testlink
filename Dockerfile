@@ -1,6 +1,12 @@
 FROM php:7.2.6-apache-stretch
 
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN apt update && \
+    apt install -y libpq5 libpq-dev && \
+    docker-php-ext-install mysqli pgsql && \
+    docker-php-ext-enable mysqli pgsql && \
+    apt purge -y libpq-dev && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/testlink/logs /var/testlink/upload_area && \
     chown -R www-data:www-data . /var/testlink/logs /var/testlink/upload_area
@@ -25,4 +31,3 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
 CMD ["apache2-foreground"]
-
