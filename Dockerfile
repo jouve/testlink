@@ -1,4 +1,4 @@
-FROM php:7.2.7-apache-stretch
+FROM php:7.2.10-apache-stretch
 
 RUN apt update && \
     apt install -y libpq5 libpq-dev && \
