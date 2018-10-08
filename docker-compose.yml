@@ -10,11 +10,11 @@ services:
     volumes:
       - maria_data:/var/lib/mysql
     healthcheck:
-      test: echo "select 1;" | MYSQL_PWD=$${MYSQL_PASSWORD} mysql -u $${MYSQL_USER} -h maria $${MYSQL_DATABASE} || exit 1
+      test: echo "select 1;" | MYSQL_PWD=$${MYSQL_PASSWORD:-testlink} mysql -u $${MYSQL_USER:-testlink} -h maria $${MYSQL_DATABASE:-testlink} || exit 1
   mysqld-exporter:
     image: prom/mysqld-exporter
     environment:
-      DATA_SOURCE_NAME: ${MYSQL_USER:-testlink}:${MYSQL_PASSWORD:-testlink}@(maria:3306)/${POSTGRES_DB:-testlink}
+      DATA_SOURCE_NAME: ${MYSQL_USER:-testlink}:${MYSQL_PASSWORD:-testlink}@(maria:3306)/${MYSQL_DATABASE:-testlink}
     network_mode: service:maria
   adminer:
     image: adminer
@@ -32,8 +32,8 @@ services:
       DB_MIGRATE: "1"
       DB_TYPE: mysql
       DB_HOST: maria
-      DB_USER: testlink
-      DB_PASS: testlink
-      DB_NAME: testlink
+      DB_USER: ${MYSQL_USER:-testlink}
+      DB_PASS: ${MYSQL_PASSWORD:-testlink}
+      DB_NAME: ${MYSQL_DATABASE:-testlink}
 volumes:
   maria_data:
