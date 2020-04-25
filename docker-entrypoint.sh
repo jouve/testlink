@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ "${1#-}" != "$1" ]; then
-	set -- apache2-foreground "$@"
-fi
-
 if [ "$1" = "apache2-foreground" -a ! -f config_db.inc.php ]; then
 	[ -z "$DB_TYPE" ] && echo "Missing DB_TYPE" && exit 1
 	[ -z "$DB_USER" ] && echo "Missing DB_USER" && exit 1
@@ -20,14 +16,6 @@ define('DB_HOST', '$DB_HOST');
 define('DB_NAME', '$DB_NAME');
 define('DB_TABLE_PREFIX', '$DB_TABLE_PREFIX');
 EOF
-
 fi
 
-if [ "${DB_MIGRATE-"0"}" != "0" ]; then
-	cd /usr/share/testlink/install
-	php installNewDB.php
-	cd -
-fi
-
-exec "$@"
-
+exec httpd -DFOREGROUND

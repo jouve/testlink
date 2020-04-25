@@ -1,39 +1,25 @@
 version: "2.3"
 services:
-  maria:
-    image: mariadb
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "1"
-      MYSQL_USER: ${MYSQL_USER:-testlink}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-testlink}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-testlink}
-    volumes:
-      - maria_data:/var/lib/mysql
-    healthcheck:
-      test: echo "select 1;" | MYSQL_PWD=$${MYSQL_PASSWORD:-testlink} mysql -u $${MYSQL_USER:-testlink} -h maria $${MYSQL_DATABASE:-testlink} || exit 1
-  mysqld-exporter:
-    image: prom/mysqld-exporter
-    environment:
-      DATA_SOURCE_NAME: ${MYSQL_USER:-testlink}:${MYSQL_PASSWORD:-testlink}@(maria:3306)/${MYSQL_DATABASE:-testlink}
-    network_mode: service:maria
-  adminer:
-    image: adminer
-    depends_on: 
-      - maria
-    healthcheck:
-      test: curl http://adminer:8080 || exit 1
   testlink:
-    build:
-      context: .
-    image: jouve/testlink:latest
-    ports:
-      - 80:80
+    image: jouve/testlink:1.9.19
+    build: .
     environment:
-      DB_MIGRATE: "1"
-      DB_TYPE: mysql
-      DB_HOST: maria
-      DB_USER: ${MYSQL_USER:-testlink}
-      DB_PASS: ${MYSQL_PASSWORD:-testlink}
-      DB_NAME: ${MYSQL_DATABASE:-testlink}
+      DB_TYPE: postgres
+      DB_USER: testlink
+      DB_PASS: testlink
+      DB_HOST: db
+      DB_NAME: testlink
+    ports:
+    - 8080:80
+  db:
+    image: postgres:12.2-alpine
+    environment:
+      POSTGRES_PASSWORD: testlink
+      POSTGRES_USER: testlink
+      POSTGRES_DB: testlink
+    volumes:
+    - type: volume
+      source: dbdata
+      target: /var/lib/postgresql/data
 volumes:
-  maria_data:
+  dbdata:
