@@ -1,4 +1,5 @@
 FROM alpine:3.11.6
+
 ARG TESTLINK_VERSION=1.9.19
 
 RUN apk add --no-cache \
@@ -12,9 +13,8 @@ RUN apk add --no-cache \
     php7-session && \
     rm -f /var/www/localhost/htdocs/index.html && \
     rm -f /var/log/apache2/access.log && ln -s /dev/stdout /var/log/apache2/access.log && \
-    rm -f /var/log/apache2/error.log && ln -s /dev/stderr /var/log/apache2/error.log
-
-RUN wget -O- https://github.com/TestLinkOpenSourceTRMS/testlink-code/archive/$TESTLINK_VERSION.tar.gz | tar -C /var/www/localhost/htdocs --strip 1 -xz && \
+    rm -f /var/log/apache2/error.log && ln -s /dev/stderr /var/log/apache2/error.log && \
+    wget -O- https://github.com/TestLinkOpenSourceTRMS/testlink-code/archive/$TESTLINK_VERSION.tar.gz | tar -C /var/www/localhost/htdocs --strip 1 -xz && \
     mkdir -p /var/testlink/logs /var/testlink/upload_area && \
     chown -R apache:www-data /var/testlink/logs /var/testlink/upload_area /var/www/localhost/htdocs/gui/templates_c
 #RUN mkdir -p /usr/share/testlink && mv install /usr/share/testlink/install
