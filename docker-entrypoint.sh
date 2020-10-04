@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "apache2-foreground" -a ! -f config_db.inc.php ]; then
+if [ ! -f config_db.inc.php ]; then
 	[ -z "$DB_TYPE" ] && echo "Missing DB_TYPE" && exit 1
 	[ -z "$DB_USER" ] && echo "Missing DB_USER" && exit 1
 	[ -z "$DB_PASS" ] && echo "Missing DB_PASS" && exit 1

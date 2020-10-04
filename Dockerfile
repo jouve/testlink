@@ -1,6 +1,6 @@
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 
-ARG TESTLINK_VERSION=1.9.19
+ARG TESTLINK_VERSION=1.9.20
 
 RUN apk add --no-cache \
     php7-apache2 \
@@ -17,7 +17,6 @@ RUN apk add --no-cache \
     wget -O- https://github.com/TestLinkOpenSourceTRMS/testlink-code/archive/$TESTLINK_VERSION.tar.gz | tar -C /var/www/localhost/htdocs --strip 1 -xz && \
     mkdir -p /var/testlink/logs /var/testlink/upload_area && \
     chown -R apache:www-data /var/testlink/logs /var/testlink/upload_area /var/www/localhost/htdocs/gui/templates_c
-#RUN mkdir -p /usr/share/testlink && mv install /usr/share/testlink/install
 
 VOLUME /var/testlink/logs /var/testlink/upload_area
 
